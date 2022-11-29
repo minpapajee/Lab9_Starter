@@ -86,6 +86,13 @@
       <button>Trigger a Global Error</button>
     </section>
   </main>
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "f3b3a8bcda3242048326856c3b115bd4"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
 
   <script>
     let form = document.querySelector('form');
@@ -102,6 +109,123 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+    class ValidationError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "ValidationError";
+      }
+    }
+    function errorTest() {
+      throw new ValidationError('Test');
+    }
+    try {
+      errorTest();
+    }
+    catch(err) {
+      console.log(err.message);
+      console.log(err.name);
+      console.log(err.stack);
+    }
+
+    try {
+      throw new SyntaxError('error!');
+    }
+    catch (err) {
+      console.log(err);
+    }
+    finally {
+      console.log('finished');
+    }
+
+
+    errorBtns[0].addEventListener('click', () => {
+      return console.log('Console Log');
+    });
+
+    errorBtns[1].addEventListener('click', () => {
+      console.error('Console Error');
+    });
+
+    errorBtns[2].addEventListener('click', () => {
+      console.count('Console Count');
+    });
+
+    errorBtns[3].addEventListener('click', () => {
+      console.warn('Console Warn');
+    });
+
+    errorBtns[4].addEventListener('click', () => {
+      const x = 0;
+      const y = 1;
+      const reason = 'x should be greater than y';
+      console.assert(x > y, {x,y,reason});
+    });
+
+    errorBtns[5].addEventListener('click', () => {
+      console.clear();
+    });
+
+    errorBtns[6].addEventListener('click', () => {
+      console.dir(document.head);
+    });
+
+    errorBtns[7].addEventListener('click', () => {
+      console.dirxml(document);
+    });
+
+    errorBtns[8].addEventListener('click', () => {
+      console.group();
+    });
+
+    errorBtns[9].addEventListener('click', () => {
+      console.groupEnd();
+    });
+
+    errorBtns[10].addEventListener('click', () => {
+      let people = [
+        {
+          name: 'Aiden',
+          gender: 'm',
+          age: '21',
+        },
+        {
+          name: 'Gavin',
+          gender: 'm',
+          age: '18',
+        },
+        {
+          name: 'Rachel',
+          gender: 'f',
+          age: '18',
+        }
+      ];
+      console.table(people);
+    });
+
+    errorBtns[11].addEventListener('click', () => {
+      console.time();
+    });
+
+    errorBtns[12].addEventListener('click', () => {
+      console.timeEnd();
+    });
+
+    errorBtns[13].addEventListener('click', () => {
+      const first = () => {second();};
+      const second = () => {third();};
+      const third = () => {fourth();};
+      const fourth = () => {console.trace();};
+      first(); 
+    });
+
+    errorBtns[14].addEventListener('click', () => {
+      throw new Error('global error');
+    })
+
+    window.addEventListener('Error', () => {
+    console.log('Global error found');
+    })
+
   </script>
 </body>
 
